@@ -182,55 +182,85 @@ const trips = [
         availableSeats: 50
     }
 ];
-const tickets = []
-let counter = 0
+const tickets = [];
+function isLetters(name){return/^[A-Za-z]+$/.test(name)}
+let count = 0
+//1
 function DisplayTrips() {
     for(let t of trips){
-        console.log("=== TRAJETS DISPONIBLESS ===");
-        console.log("#", t.id, t.departure,"→", t.destination, "\n",
+        console.log(
+            "=== TRAJETS DISPONIBLESS ===", "\n",
+            "•", t.id, t.departure,"→", t.destination, "\n",
             "Départ :", t.departureTime,"\n",
             "Arrivée :", t.arrivalTime, "\n",
             "Prix :", t.price , "\n",
             "Places disponibles :", t.availableSeats
         )
+    }
+}
+//2
+function BuyTicket() {
+    let passengerName
+    let tripId
+    do{
+        passengerName = prompt("Nom du passager :")
+        tripId        = prompt("Identifiant du trajet :")
         
-
+    }while (!isLetters(passengerName) || isNaN(trips.id))
+    tickets.push(passengerName)
+}
+    
+//3
+//do invalid ticket if  ticket id is not available and in other functions
+function displayTickets() {
+    for( let ticket of tickets){
+        console.log(
+            "=== TICKETS ===", "\n",
+            "Ticket •",tickets.id, "\n"
+            
+        );
+        
     }
     
 }
-function BuyTicket() {
-    console.log("2. Buy a ticket");
+//4
+function cancelTicket() {
+    console.log("cancel Ticket");
     
 }
-function DisplayTickets() {
-    console.log("3. Display tickets");
-    
-}
-function deleteTicket() {
-    console.log("deleteTicket");
-    
-}
+//5
 function searchTicket() {
     console.log("searchTicket");
     
 }
-
+//6
+function filterTrips() {
+    console.log("filterTrips");
+    
+}
+//7
+function SortTrips() {
+    console.log("searchTicket");
+    
+}
 
 function main() {
     let n;
     do {
-        console.log("=================================");
+        console.log("=".repeat(33));
         console.log("        RAILWAY MANAGER        ");
-        console.log("=================================");
-        console.log("1. Display trips");
-        console.log("2. 2. Buy a ticket");
-        console.log("3. update ticket");
-        console.log("4. delete ticket");
-        console.log("5. search ticket");
-        console.log("6. EXIT");
-        console.log("=".repeat(18));
+        console.log("=".repeat(33));
+        console.log("1. Display trips");//1. Afficher les trajets
+        console.log("2. Buy a ticket"); //2. Acheter un ticket
+        console.log("3. Display tickets"); //3. Afficher les tickets
+        console.log("4. cancel a ticket"); //4. Annuler un ticket
+        console.log("5. Search for ticket");//5. Rechercher un ticket
+        console.log("6. filter trips");// 6. Filtrer les trajets
+        console.log("7. Sort trips");//7. Trier les trajets
+        console.log("0. EXIT");// 0. Quitter
+        console.log("=".repeat(33));
     
-        n = Number(prompt("Type your choice (1-6)"))
+        n = Number(prompt("Type your choice (1-7)"))
         switch (n) {
             case 1:
                 DisplayTrips()
@@ -239,21 +269,27 @@ function main() {
                 BuyTicket()
                 break;
             case 3:
-                updateTicket()
+                displayTickets()
                 break;
             case 4:
-                deleteTicket()
+                cancelTicket()
                 break;
             case 5:
                 searchTicket()
                 break;
-            case 6: break;
-        
+            case 6:
+                filterTrips();
+                break;
+            case 7:
+                SortTrips()
+                break;
+            case 0:break;
+
             default:
-                 prompt("Invalid Choice :  Press 'Any key' ")
+                 prompt("Invalid Choice :  Press 'ENTER' ")
                 break;
         }
-    } while (n!=6)
+    } while (n!=0)
 }
 
 main()
