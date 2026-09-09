@@ -201,23 +201,46 @@ function DisplayTrips() {
 //2
 function BuyTicket() {
     let passengerName
-    let tripId
+    let getTripById;
+    let i = 0
+    let newTicket
     do{
-        passengerName = prompt("Nom du passager :")
-        tripId        = prompt("Identifiant du trajet :")
-        
-    }while (!isLetters(passengerName) || isNaN(trips.id))
-    tickets.push(passengerName)
-}
+
+        for(let trip of trips){
+            if(trips[i].id === getTripById ){
+                count++;
+                
+                newTicket = {
+                    id : count,
+                    passengerName : prompt("Nom du passager :"),
+                    tripId : count,
+                    seatNumber : count,
+                    price : trips[i].price
+                }
+                getTripById = Number(prompt("Identifiant du trajet :"))
+                tickets.push(newTicket)
+            }
+        }
+    }while (!isLetters(passengerName) || isNaN(trips.id)){
+        console.log(getTripById);
+
+    }
     
+}
+
+
+
 //3
 //do invalid ticket if  ticket id is not available and in other functions
 function displayTickets() {
     for( let ticket of tickets){
         console.log(
             "=== TICKETS ===", "\n",
-            "Ticket •",tickets.id, "\n"
-            
+            "Ticket •",tickets.id, "\n", //ganerated
+            "Passager : ",tickets.passengerName, "\n", //push from BuyTickets
+            "Trajet :",tickets.departure," → ",tickets.destination,"\n", // edxisted
+            "Place : ", tickets.place, // most be generated
+            "Prix : ", tickets.price,//existed
         );
         
     }
@@ -225,7 +248,7 @@ function displayTickets() {
 }
 //4
 function cancelTicket() {
-    console.log("cancel Ticket");
+
     
 }
 //5
@@ -245,7 +268,7 @@ function SortTrips() {
 }
 
 function main() {
-    let n;
+    let choice;
     do {
         console.log("=".repeat(33));
         console.log("        RAILWAY MANAGER        ");
@@ -260,8 +283,8 @@ function main() {
         console.log("0. EXIT");// 0. Quitter
         console.log("=".repeat(33));
     
-        n = Number(prompt("Type your choice (1-7)"))
-        switch (n) {
+        choice = Number(prompt("Type your choice (1-7)"))
+        switch (choice) {
             case 1:
                 DisplayTrips()
                 break;
@@ -289,7 +312,7 @@ function main() {
                  prompt("Invalid Choice :  Press 'ENTER' ")
                 break;
         }
-    } while (n!=0)
+    } while (choice!=0)
 }
 
 main()
