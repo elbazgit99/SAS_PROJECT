@@ -184,16 +184,26 @@ const trips = [
 ];
 const tickets = []
 let counter = 0
-function createTicket() {
-    console.log("createTicket");
+function DisplayTrips() {
+    for(let t of trips){
+        console.log("=== TRAJETS DISPONIBLESS ===");
+        console.log("#", t.id, t.departure,"→", t.destination, "\n",
+            "Départ :", t.departureTime,"\n",
+            "Arrivée :", t.arrivalTime, "\n",
+            "Prix :", t.price , "\n",
+            "Places disponibles :", t.availableSeats
+        )
+        
+
+    }
     
 }
-function readTicket() {
-    console.log("readTicket");
+function BuyTicket() {
+    console.log("2. Buy a ticket");
     
 }
-function updateTicket() {
-    console.log("updateTicket");
+function DisplayTickets() {
+    console.log("3. Display tickets");
     
 }
 function deleteTicket() {
@@ -206,25 +216,27 @@ function searchTicket() {
 }
 
 
-function main(n) {
-    
+function main() {
+    let n;
     do {
-        console.log("************************");
-        console.log("1. create Student");
-        console.log("2. Read ticket");
+        console.log("=================================");
+        console.log("        RAILWAY MANAGER        ");
+        console.log("=================================");
+        console.log("1. Display trips");
+        console.log("2. 2. Buy a ticket");
         console.log("3. update ticket");
         console.log("4. delete ticket");
         console.log("5. search ticket");
-        console.log("6. Quits");
-        console.log("************************");
+        console.log("6. EXIT");
+        console.log("=".repeat(18));
     
         n = Number(prompt("Type your choice (1-6)"))
         switch (n) {
             case 1:
-                createTicket()
+                DisplayTrips()
                 break;
             case 2:
-                readTicket()
+                BuyTicket()
                 break;
             case 3:
                 updateTicket()
@@ -238,8 +250,7 @@ function main(n) {
             case 6: break;
         
             default:
-                 console.log();
-                  n = Number(prompt("Please Inter a Valide Choice"))
+                 prompt("Invalid Choice :  Press 'Any key' ")
                 break;
         }
     } while (n!=6)
