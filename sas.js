@@ -187,14 +187,14 @@ function isLetters(name){return/^[A-Za-z]+$/.test(name)}
 let count = 0
 //1
 function DisplayTrips() {
-    for(let t of trips){
+    for(let trip of trips){
         console.log(
             "=== TRAJETS DISPONIBLESS ===", "\n",
-            "•", t.id, t.departure,"→", t.destination, "\n",
-            "Départ :", t.departureTime,"\n",
-            "Arrivée :", t.arrivalTime, "\n",
-            "Prix :", t.price , "\n",
-            "Places disponibles :", t.availableSeats
+            "•", trip.id, trip.departure,"→", trip.destination, "\n",
+            "Départ :", trip.departureTime,"\n",
+            "Arrivée :", trip.arrivalTime, "\n",
+            "Prix :", trip.price, "DH" , "\n",
+            "Places disponibles :", trip.availableSeats
         )
     }
 }
@@ -209,20 +209,22 @@ function BuyTicket() {
         for(let trip of trips){
             if(trips[i].id === getTripById ){
                 count++;
-                
-                newTicket = {
+                i++
+                 newTicket = {
                     id : count,
                     passengerName : prompt("Nom du passager :"),
                     tripId : count,
                     seatNumber : count,
-                    price : trips[i].price
+                    price : trip[i].price + " DH"
                 }
                 getTripById = Number(prompt("Identifiant du trajet :"))
                 tickets.push(newTicket)
+                break;
             }
+
         }
     }while (!isLetters(passengerName) || isNaN(trips.id)){
-        console.log(getTripById);
+    console.log(newTicket);
 
     }
     
@@ -236,15 +238,13 @@ function displayTickets() {
     for( let ticket of tickets){
         console.log(
             "=== TICKETS ===", "\n",
-            "Ticket •",tickets.id, "\n", //ganerated
-            "Passager : ",tickets.passengerName, "\n", //push from BuyTickets
-            "Trajet :",tickets.departure," → ",tickets.destination,"\n", // edxisted
-            "Place : ", tickets.place, // most be generated
-            "Prix : ", tickets.price,//existed
+            "Ticket •",ticket.id, "\n", //ganerated
+            "Passager : ",ticket.passengerName, "\n", //push from BuyTickets
+            "Trajet :",ticket.departure," → ",ticket.destination,"\n", // edxisted
+            "Place : ", ticket.place, // most be generated
+            "Prix : ", ticket.price,//existed
         );
-        
     }
-    
 }
 //4
 function cancelTicket() {
@@ -253,12 +253,42 @@ function cancelTicket() {
 }
 //5
 function searchTicket() {
-    console.log("searchTicket");
+    let getTicketByName = prompt("Nom du passager :")
+    let i = 0
+    let searchedTicket
+    for(let ticket of tickets){
+        if (tickets[i].passengerName === getTicketByName){
+            i++
+            searchedTicket = {
+                    id : ticket[i].id,
+                    Passager : ticket[i].passengerName,
+                    Trajet   : ticket[i].departure + ticket[i].destination,
+                    Place    : ticket[i].place,
+                    Prix     : ticket[i].price
+                }
+        }
+    }
+    console.log(searchedTicket);
     
 }
 //6
 function filterTrips() {
-    console.log("filterTrips");
+    let i = 0
+    let depart = isLetters(prompt("Ville de départ :"))
+    for(let trip of trips){
+        if( trip[i].departure === depart){
+            i++
+            console.log(
+                "Ville de départ :",trip[i].departure ,"\n",
+            "\n",
+            "\n",
+            "Résultat :",
+            depart , "→",trip[i].destination,":",trip[i].price, "DH"
+        );
+            
+        }
+    }
+
     
 }
 //7
