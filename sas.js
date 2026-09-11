@@ -207,31 +207,38 @@ function BuyTicket() {
     let newTicket
     let trip;
     do {
-        passengerName = prompt("Passenger Name :");
-        getTripById = Number(prompt("Trip Identety :"));
-        if (!isLetters(passengerName)) {
-            console.log("====Invalid Name====")
-            continue;
-        }
-        for (trip of trips) {
-            if (trip.id === getTripById) {
-                count++;
-                newTicket = {
-                    id : count,
-                    passengerName : passengerName,
-                    seatNumber : trip.availableSeats,
-                    price : trip.price ,
-                }
-                tickets.push(newTicket)
-                console.table(newTicket)
-                break
-            }
-            }
-        if (getTripById != trip.id) {
-            console.log("==== Invalid Trip Id ====");
-        }
+    passengerName = prompt("Passenger Name :");
+    getTripById = Number(prompt("Trip Identety :"));
+    if (!isLetters(passengerName)) {
+        console.log("====Invalid Name====")
+        continue;
+    }
+    for (let trip of trips) {
 
-    } while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trip.id)
+        if ( getTripById=== trip.id) {
+            if(trip.availableSeats == 0){
+                console.log("==== No Seats Eemaining ====");
+                
+            }
+            let SeatNumber = 51 - trip.availableSeats
+            count++;
+            newTicket = {
+                id : count,
+                passengerName : passengerName,
+                seatNumber :  SeatNumber,
+                price : trip.price ,
+            }
+            tickets.push(newTicket)
+            console.table(newTicket)
+            trip.availableSeats --;
+            break
+        }
+        }
+    if (getTripById != trips.id) {
+        console.log("==== Invalid Trip Id ====");
+    }
+
+    } while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trips.id)
     return newTicket;
 }
 
@@ -245,9 +252,7 @@ function displayTickets() {
             "Passenger : ",ticket.passengerName, "\n",
             "Trip :",trip.departure," → ",trip.destination,"\n",
             "Place : ", trip.availableSeats, "\n",
-            "Price : ", ticket.price,
-        )
-        
+            "Price : ", ticket.price,)
     }
     return
 }
@@ -258,12 +263,10 @@ function cancelTicket() {
     for(let ticket of tickets){
         if (ticket.id === 0 || ticket.id != getTicketById){
             console.log("====No Valid Tickets");
-            continue
-        }
+            continue}
         if(ticket.id === getTicketById){
             tickets.splice(ticket,1)
-            break
-        }
+            break}
     }
     return
 }
@@ -326,9 +329,19 @@ function filterTrips() {
 
 
 function SortTrips() {
-    console.log("SortTrips");
-    
+    let swap
+    for(let i = 0; i < trips.length;i++)
+        for(let j = 0;j < trips.length-1;j++){
+            if(trips[j].price > trips[j+1].price){
+                swap = trips[j]
+                trips[j] = trips[j+1]
+                trips[j+1] = swap
+
+            }
+    }
+    console.table(trips)
 }
+
 
 function main() {
     let n;
