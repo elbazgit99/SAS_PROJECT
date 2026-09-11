@@ -183,143 +183,178 @@ const trips = [
     }
 ];
 const tickets = [];
-function isLetters(name){return/^[A-Za-z]+$/.test(name)}
+function isLetters(name){return/^[A-Za-z ]+$/.test(name)}
 let count = 0
-//1
+
 function DisplayTrips() {
     for(let trip of trips){
         console.log(
-            "=== TRAJETS DISPONIBLESS ===", "\n",
+            "\n",
+            "====== AVAILABLE TRIPS ======", "\n",
             "•", trip.id, trip.departure,"→", trip.destination, "\n",
-            "Départ :", trip.departureTime,"\n",
-            "Arrivée :", trip.arrivalTime, "\n",
-            "Prix :", trip.price, "DH" , "\n",
-            "Places disponibles :", trip.availableSeats
+            "Departure :", trip.departureTime,"\n",
+            "Arrival :", trip.arrivalTime, "\n",
+            "Price :", trip.price, "DH" , "\n",
+            "Available Places :", trip.availableSeats
         )
     }
 }
-//2
+
+
 function BuyTicket() {
+    let getTripById
     let passengerName
-    let getTripById;
-    let i = 0
     let newTicket
-    do{
-
-        for(let trip of trips){
-            if(trips[i].id === getTripById ){
-                count++;
-                i++
-                 newTicket = {
-                    id : count,
-                    passengerName : prompt("Nom du passager :"),
-                    tripId : count,
-                    seatNumber : count,
-                    price : trip[i].price + " DH"
-                }
-                getTripById = Number(prompt("Identifiant du trajet :"))
-                tickets.push(newTicket)
-                break;
-            }
-
+    let trip;
+    do {
+        passengerName = prompt("Passenger Name :");
+        getTripById = Number(prompt("Trip Identety :"));
+        if (!isLetters(passengerName)) {
+            console.log("====Invalid Name====")
+            continue;
         }
-    }while (!isLetters(passengerName) || isNaN(trips.id)){
-    console.log(newTicket);
+        for (trip of trips) {
+            if (trip.id === getTripById) {
+                count++;
+                newTicket = {
+                    id : count,
+                    passengerName : passengerName,
+                    seatNumber : trip.availableSeats,
+                    price : trip.price ,
+                }
+                tickets.push(newTicket)
+                console.table(newTicket)
+                break
+            }
+            }
+        if (getTripById != trip.id) {
+            console.log("==== Invalid Trip Id ====");
+        }
 
-    }
-    
+    } while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trip.id)
+    return newTicket;
 }
 
 
-
-//3
-//do invalid ticket if  ticket id is not available and in other functions
 function displayTickets() {
     for( let ticket of tickets){
+        let trip = trips.find(trip => trip.id ==ticket.tripId || trip.id == ticket.id)
         console.log(
-            "=== TICKETS ===", "\n",
-            "Ticket •",ticket.id, "\n", //ganerated
-            "Passager : ",ticket.passengerName, "\n", //push from BuyTickets
-            "Trajet :",ticket.departure," → ",ticket.destination,"\n", // edxisted
-            "Place : ", ticket.place, // most be generated
-            "Prix : ", ticket.price,//existed
-        );
+            "========= TICKETS =========","\n",
+            "Ticket •",ticket.id, "\n",
+            "Passenger : ",ticket.passengerName, "\n",
+            "Trip :",trip.departure," → ",trip.destination,"\n",
+            "Place : ", trip.availableSeats, "\n",
+            "Price : ", ticket.price,
+        )
+        
     }
+    return
 }
-//4
-function cancelTicket() {
 
-    
-}
-//5
-function searchTicket() {
-    let getTicketByName = prompt("Nom du passager :")
-    let i = 0
-    let searchedTicket
+
+function cancelTicket() {
+    let getTicketById = Number(prompt("Enter The Ticket Id To Delete"))
     for(let ticket of tickets){
-        if (tickets[i].passengerName === getTicketByName){
-            i++
-            searchedTicket = {
-                    id : ticket[i].id,
-                    Passager : ticket[i].passengerName,
-                    Trajet   : ticket[i].departure + ticket[i].destination,
-                    Place    : ticket[i].place,
-                    Prix     : ticket[i].price
-                }
+        if (ticket.id === 0 || ticket.id != getTicketById){
+            console.log("====No Valid Tickets");
+            continue
+        }
+        if(ticket.id === getTicketById){
+            tickets.splice(ticket,1)
+            break
         }
     }
-    console.log(searchedTicket);
-    
+    return
 }
-//6
+
+function searchTicket() {
+    let getTicketByName
+
+    do{  
+        getTicketByName = prompt("Passenger Name :")
+    
+        if(!isLetters(getTicketByName)){
+            console.log("====Invalid City===");
+            continue
+        }else{ console.log("====Your Tickets ===");}
+            
+        for(let ticket of tickets){
+            if (getTicketByName.toLowerCase() ===ticket.passengerName.toLowerCase() ){
+                for(let trip of trips){
+
+                    console.log(
+                        "Ticket •",ticket.id,"\n",
+                        "Passenger :" , ticket.passengerName,"\n",
+                        "Trip :" ,trip.departure, trip.destination,"\n",
+                        "Place :"  ,trip.availableSeats,"\n",
+                        "Price :", ticket.price,"\n"
+                        
+                    );
+                    break
+                }
+            }
+        }
+            
+
+    }while(!isLetters(getTicketByName))
+    return 
+}
+
 function filterTrips() {
-    let i = 0
-    let depart = isLetters(prompt("Ville de départ :"))
+ let getCity
+ let filteredCity
+ do {
+    getCity = prompt("Departure City :")
+    
+} while (!isLetters(getCity))
+
     for(let trip of trips){
-        if( trip[i].departure === depart){
-            i++
+        if(getCity.toLowerCase() === trip.departure.toLowerCase() ){
             console.log(
-                "Ville de départ :",trip[i].departure ,"\n",
-            "\n",
-            "\n",
-            "Résultat :",
-            depart , "→",trip[i].destination,":",trip[i].price, "DH"
-        );
+                "Depart City :",trip.departure,"\n\n",
+                "Results","\n\n",
+                trip.departure, "→",trip.destination,":",trip.price,"DH","\n",
+                "=".repeat(33)
+            )
             
         }
-    }
 
-    
+    }
+    return 
 }
-//7
+
+
 function SortTrips() {
-    console.log("searchTicket");
+    console.log("SortTrips");
     
 }
 
 function main() {
-    let choice;
+    let n;
     do {
-        console.log("=".repeat(33));
-        console.log("        RAILWAY MANAGER        ");
-        console.log("=".repeat(33));
-        console.log("1. Display trips");//1. Afficher les trajets
-        console.log("2. Buy a ticket"); //2. Acheter un ticket
-        console.log("3. Display tickets"); //3. Afficher les tickets
-        console.log("4. cancel a ticket"); //4. Annuler un ticket
-        console.log("5. Search for ticket");//5. Rechercher un ticket
-        console.log("6. filter trips");// 6. Filtrer les trajets
-        console.log("7. Sort trips");//7. Trier les trajets
-        console.log("0. EXIT");// 0. Quitter
-        console.log("=".repeat(33));
-    
-        choice = Number(prompt("Type your choice (1-7)"))
-        switch (choice) {
+        console.log(
+        "=".repeat(33), "\n",
+        "        RAILWAY MANAGER        ", "\n",
+        "=".repeat(33),"\n",
+        "1. Display trips", "\n",
+        "2. Buy a ticket","\n",
+        "3. Display tickets", "\n",
+        "4. cancel a ticket", "\n",
+        "5. Search for ticket", "\n",
+        "6. filter trips", "\n",
+        "7. Sort trips", "\n",
+        "0. EXIT","\n",
+        "=".repeat(33)
+        )
+        n = Number(prompt("Type your choice (1-7)"))
+        switch (n) {
             case 1:
                 DisplayTrips()
                 break;
             case 2:
-                BuyTicket()
+                console.log(BuyTicket());
+                //  BuyTicket()
                 break;
             case 3:
                 displayTickets()
@@ -342,7 +377,7 @@ function main() {
                  prompt("Invalid Choice :  Press 'ENTER' ")
                 break;
         }
-    } while (choice!=0)
+    } while (n!=0)
 }
 
 main()
