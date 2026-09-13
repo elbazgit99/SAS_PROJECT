@@ -182,7 +182,7 @@ const trips = [
         availableSeats: 50
     }
 ];
-const tickets = [];
+let tickets = [];
 function isLetters(name){return/^[A-Za-z ]+$/.test(name)}
 let count = 0
 
@@ -197,9 +197,9 @@ function DisplayTrips() {
             "Price :", trip.price, "DH" , "\n",
             "Available Places :", trip.availableSeats
         )
+    
     }
-}
-
+ }
 
 function BuyTicket() {
     let getTripById
@@ -207,13 +207,22 @@ function BuyTicket() {
     let newTicket
     let trip;
     do {
-    passengerName = prompt("Passenger Name :");
-    getTripById = Number(prompt("Trip Identety :"));
-    if (!isLetters(passengerName)) {
-        console.log("====Invalid Name====")
-        continue;
-    }
-    for (let trip of trips) {
+            // the main issue was putting inputs inside for loop wich causing in somhow infinite unvalide
+            passengerName = prompt("Passenger Name :");
+            if (!isLetters(passengerName)) {
+                console.log("!!!!   Invalid Name   !!!!")
+                return ""  // return  behaves as break when this condition is true it breaks the proccess
+            }
+            
+            getTripById = Number(prompt("Trip Identety :"))
+                if (isNaN(getTripById)) {
+                console.log("#### Invalid Trip Id  ####")
+                break
+            }
+
+        for (let trip of trips) {
+
+
 
         if ( getTripById=== trip.id) {
             if(trip.availableSeats == 0){
@@ -223,97 +232,100 @@ function BuyTicket() {
             let SeatNumber = 51 - trip.availableSeats
             count++;
             newTicket = {
-                id : count,
-                passengerName : passengerName,
-                seatNumber :  SeatNumber,
-                price : trip.price ,
-            }
+                        id : count,
+                        tripId  : trip.id, 
+                        passengerName : passengerName,
+                        trip : trip.departure +" → "+ trip.destination, // i've been pulling this in display but it was never existed
+                        seatNumber :  SeatNumber,
+                        price : trip.price ,
+                    }
             tickets.push(newTicket)
             console.table(newTicket)
             trip.availableSeats --;
             break
         }
         }
-    if (getTripById != trips.id) {
-        console.log("==== Invalid Trip Id ====");
-    }
+
 
     } while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trips.id)
-    return newTicket;
+        // while is not the direct responsible for validing the inputs it just restart the do since the condition is true
+
+    return "" // to avoide returnig object of newTicket;
 }
 
 
 function displayTickets() {
+    let display;
     for( let ticket of tickets){
-        let trip = trips.find(trip => trip.id ==ticket.tripId || trip.id == ticket.id)
-        console.log(
+        display = console.log(
             "========= TICKETS =========","\n",
             "Ticket •",ticket.id, "\n",
             "Passenger : ",ticket.passengerName, "\n",
-            "Trip :",trip.departure," → ",trip.destination,"\n",
-            "Place : ", trip.availableSeats, "\n",
+            "Trip :", ticket.trip,"\n",   /*the issue was tha i've been pulling  trips.departure and trip.destination in trips instead of 
+             ticket.trip only  where bouth storing in the same key(trip) not separated like trips  */
+            "Place : ", ticket.seatNumber, "\n", /*the same issue above  appearing here because instead of calling the key seatNumber in ticket i've 
+            been pulling trip.availableSeats */
             "Price : ", ticket.price,)
-    }
-    return
+    }   
+    return display
 }
 
 
 function cancelTicket() {
     let getTicketById = Number(prompt("Enter The Ticket Id To Delete"))
+
     for(let ticket of tickets){
+
         if (ticket.id === 0 || ticket.id != getTicketById){
             console.log("====No Valid Tickets");
             continue}
+
         if(ticket.id === getTicketById){
             tickets.splice(ticket,1)
             break}
     }
     return
 }
-
 function searchTicket() {
     let getTicketByName
 
     do{  
         getTicketByName = prompt("Passenger Name :")
     
-        if(!isLetters(getTicketByName)){
-            console.log("====Invalid City===");
-            continue
-        }else{ console.log("====Your Tickets ===");}
+        !isLetters(getTicketByName)
+        ? console.log("====Invalid City===")
+        :console.log("====Your Tickets ===")
             
         for(let ticket of tickets){
             if (getTicketByName.toLowerCase() ===ticket.passengerName.toLowerCase() ){
-                for(let trip of trips){
 
                     console.log(
-                        "Ticket •",ticket.id,"\n",
+                        "Ticket  •",ticket.id,"\n",
                         "Passenger :" , ticket.passengerName,"\n",
-                        "Trip :" ,trip.departure, trip.destination,"\n",
-                        "Place :"  ,trip.availableSeats,"\n",
+                        "Trip :", ticket.trip,"\n", // the issua as will as in display pulling from trip and  non existed from ticket 
+                        "Place :"  ,ticket.seatNumber,"\n", // the same issue 
                         "Price :", ticket.price,"\n"
                         
                     );
                     break
-                }
+        
             }
         }
             
 
     }while(!isLetters(getTicketByName))
-    return 
+    return ""
 }
 
 function filterTrips() {
- let getCity
- let filteredCity
+ let getCityByDeparture
  do {
-    getCity = prompt("Departure City :")
+    getCityByDeparture = prompt("Departure City :")
     
-} while (!isLetters(getCity))
+} while (!isLetters(getCityByDeparture))
 
     for(let trip of trips){
-        if(getCity.toLowerCase() === trip.departure.toLowerCase() ){
+        if(getCityByDeparture.toLowerCase() === trip.departure.toLowerCase() ){
             console.log(
                 "Depart City :",trip.departure,"\n\n",
                 "Results","\n\n",
