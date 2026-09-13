@@ -1,5 +1,9 @@
 #  TRAILWAY MANAGER : EL YOUSOUFIA SAS_PROJECT   
 
+# PROJECT REQUIRMENTS :
+installing Node.js  
+install Promprt Sync --->  npm i prompt-sync
+
 ## ABOUT THE PROJECT :   
 
 This Project Was About Creating a CRUDS Operation System For a Mangment Trips And Ticket For Train Application UnderName  "TRAILWAY MANAGER".
@@ -41,10 +45,12 @@ What known As Days, in Nine Days Peried Was Full Of Education And Commitment To 
 
 ## PERSONAL EXPERIENCE :
 
-```text
-Visiting EL Yousoufia For the First Time Was Quite An Extraordenry Experience ,The 2Weeks SAS Peried has Been  Handled Perfectly, Providing Free Services :  Transportation, Lunch , And etc. Makes It a Worth Experience To tell,to Thank as Will.
+Visiting EL Yousoufia For the First Time Was Quite An Extraordenry Experience ,  
+The 2Weeks SAS Peried has Been  Handled Perfectly,   
+Providing Free Services :  Transportation, Lunch , And etc.  
+Makes It a Worth Experience To tell,to Thank as Will.
 
-```
+
 
 # Author :
 Hamza El Baz
