@@ -206,29 +206,26 @@ function BuyTicket() {
     let passengerName
     let newTicket
     let trip;
+
+    //you can handle inputs inside the for loop by using "Flag = variable with  boolean assigned"
     do {
             // the main issue was putting inputs inside for loop wich causing in somhow infinite unvalide
             passengerName = prompt("Passenger Name :");
             if (!isLetters(passengerName)) {
-                console.log("!!!!   Invalid Name   !!!!")
-                return ""  // return  behaves as break when this condition is true it breaks the proccess
+                console.log("!!!!   Invalid Name   !!!!")             // return  behaves as break when this condition is true it breaks the proccess
+                break
             }
-            
             getTripById = Number(prompt("Trip Identety :"))
                 if (isNaN(getTripById)) {
                 console.log("#### Invalid Trip Id  ####")
-                break
+                break;
             }
 
-        for (let trip of trips) {
+            
 
-
-
-        if ( getTripById=== trip.id) {
-            if(trip.availableSeats == 0){
-                console.log("==== No Seats Eemaining ====");
-                
-            }
+    for (let trip of trips) {
+        if ( getTripById === trip.id) {
+            // i previesly put if here but it doesn't make sence because once the outer if is true it doesn't check the inner
             let SeatNumber = 51 - trip.availableSeats
             count++;
             newTicket = {
@@ -243,6 +240,10 @@ function BuyTicket() {
             console.table(newTicket)
             trip.availableSeats --;
             break
+        }else if(trip.availableSeats == 0){
+                console.log("==== No Seats Eemaining ====");
+                
+            }
         }
         }
 
@@ -276,13 +277,13 @@ function cancelTicket() {
 
     for(let ticket of tickets){
 
-        if (ticket.id === 0 || ticket.id != getTicketById){
+        if (ticket.id === 0 /* || ticket.id != getTicketById*/){
             console.log("====No Valid Tickets");
-            continue}
+            }
 
         if(ticket.id === getTicketById){
-            tickets.splice(ticket,1)
-            break}
+            tickets.splice(ticket.id,1)
+            }
     }
     return
 }
