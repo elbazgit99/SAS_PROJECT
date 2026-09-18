@@ -245,14 +245,14 @@ function BuyTicket() {
                 
             }
         }
-        }
-
-
-    } while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trips.id)
+        }while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trips.id)
         // while is not the direct responsible for validing the inputs it just restart the do since the condition is true
 
     return "" // to avoide returnig object of newTicket;
-}
+
+    } 
+        
+
 
 
 function displayTickets() {
