@@ -292,6 +292,7 @@ function cancelTicket() {
 function searchTicket() {
     let getTicketByName
     let isValidName;
+    let isFound = false
 
     do{  
         getTicketByName = prompt("Passenger Name :")
@@ -300,7 +301,7 @@ function searchTicket() {
             isValidName = getTicketByName.toLowerCase() === tickets[i].passengerName.toLowerCase() ;
 
             if (isValidName){
-
+                isFound = true
                 console.log(
                    "Ticket  •",tickets[i].id,"\n",
                    "Passenger :" , tickets[i].passengerName,"\n",
@@ -309,12 +310,12 @@ function searchTicket() {
                    "Price :", tickets[i].price,"\n"
                 )
             }
-            // else{
+            
+        }
+        if(!isFound) {
 
-            //     console.log(`The Name ${getTicketByName} Is Not Existed`);
-            //    break
-            // }
-                
+            console.log(`The Name ${getTicketByName} Is Not Existed`);
+           break
         }
             
 
