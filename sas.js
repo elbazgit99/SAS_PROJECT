@@ -182,10 +182,10 @@ const trips = [
         availableSeats: 50
     }
 ];
-let tickets = [];
-function isLetters(name){return/^[A-Za-z ]+$/.test(name)}
+let tickets = []
+function isLetters(name){return /^[A-Za-z ]+$/.test(name)}
 let count = 0
-
+// let i = 0; // this to let for of to access the index
 function DisplayTrips() {
     for(let trip of trips){
         console.log(
@@ -221,35 +221,34 @@ function BuyTicket() {
                 break;
             }
 
-            
-
-    for (let trip of trips) {
-        if ( getTripById === trip.id) {
-            // i previesly put if here but it doesn't make sence because once the outer if is true it doesn't check the inner
-            let SeatNumber = 51 - trip.availableSeats
-            count++;
-            newTicket = {
-                        id : count,
-                        tripId  : trip.id, 
-                        passengerName : passengerName,
-                        trip : trip.departure +" → "+ trip.destination, // i've been pulling this in display but it was never existed
-                        seatNumber :  SeatNumber,
-                        price : trip.price ,
-                    }
-            tickets.push(newTicket)
-            console.table(newTicket)
-            trip.availableSeats --;
-            break
-        }else if(trip.availableSeats == 0){
-                console.log("==== No Seats Eemaining ====");
-                
+        for (let trip of trips) {
+            if(trip.availableSeats == 0){
+                    console.log("==== No Seats Remaining ====");
+                    
+                }
+            if ( getTripById === trip.id) {
+                // i previesly put if here but it doesn't make sence because once the outer if is true it doesn't check the inner
+                let SeatNumber = 51 - trip.availableSeats
+                count++;
+                newTicket = {
+                            id : count,
+                            tripId  : trip.id, 
+                            passengerName : passengerName,
+                            trip : trip.departure +" → "+ trip.destination, // i've been pulling this in display but it was never existed
+                            seatNumber :  SeatNumber,
+                            price : trip.price ,
+                        }
+                tickets.push(newTicket)
+                console.table(newTicket)
+                trip.availableSeats --;
+                break
             }
-        }
-        }while (!isLetters(passengerName) || isNaN(getTripById) || getTripById > trips.id)
-        // while is not the direct responsible for validing the inputs it just restart the do since the condition is true
+
+            }
+            }while (!isLetters(passengerName) || isNaN(getTripById))
+            // while is not the direct responsible for validing the inputs it just restart the do since the condition is true
 
     return "" // to avoide returnig object of newTicket;
-
     } 
         
 
@@ -273,71 +272,88 @@ function displayTickets() {
 
 
 function cancelTicket() {
-    let getTicketById = Number(prompt("Enter The Ticket Id To Delete"))
+    let getTicketById = Number(prompt("Enter The Ticket Id To Cancel"))
 
-    for(let ticket of tickets){
 
-        if (ticket.id === 0 /* || ticket.id != getTicketById*/){
-            console.log("====No Valid Tickets");
-            }
+    for( let i = 0; i < tickets.length; i++){
+        
+        if( tickets[i].id === getTicketById){
+            tickets.splice(i, 1)
+            break
+        }else{
+             console.log("====No Valid Tickets")
 
-        if(ticket.id === getTicketById){
-            tickets.splice(ticket.id,1)
-            }
+        }
+        break
     }
-    return
+
 }
+
 function searchTicket() {
     let getTicketByName
+    let isValidName;
 
     do{  
         getTicketByName = prompt("Passenger Name :")
-    
-        !isLetters(getTicketByName)
-        ? console.log("====Invalid City===")
-        :console.log("====Your Tickets ===")
-            
-        for(let ticket of tickets){
-            if (getTicketByName.toLowerCase() ===ticket.passengerName.toLowerCase() ){
 
-                    console.log(
-                        "Ticket  •",ticket.id,"\n",
-                        "Passenger :" , ticket.passengerName,"\n",
-                        "Trip :", ticket.trip,"\n", // the issua as will as in display pulling from trip and  non existed from ticket 
-                        "Place :"  ,ticket.seatNumber,"\n", // the same issue 
-                        "Price :", ticket.price,"\n"
-                        
-                    );
-                    break
-        
-            }
+        for(let i = 0; i < tickets.length; i++){
+            isValidName =
+            getTicketByName.toLowerCase() === tickets[i].passengerName.toLowerCase() 
+            && isLetters(getTicketByName);
+
+            isValidName
+            ? console.log(
+                "Ticket  •",tickets[i].id,"\n",
+                "Passenger :" , tickets[i].passengerName,"\n",
+                "Trip :", tickets[i].trip,"\n", // the issua as will as in display pulling from trip and  non existed from tickets[i] 
+                "Place :"  ,tickets[i].seatNumber,"\n", // the same issue 
+                "Price :", tickets[i].price,"\n"
+                
+            )
+            : console.log(`The Name ${getTicketByName} Is Not Existed`);
+            break
         }
             
 
-    }while(!isLetters(getTicketByName))
+    }while(!isValidName )
     return ""
 }
 
 function filterTrips() {
- let getCityByDeparture
+    let getCitysByDeparture
+    let isValidDeparture
+    let availableCitys
+    let isFound ; // handling for loop using  Flag concept
  do {
-    getCityByDeparture = prompt("Departure City :")
-    
-} while (!isLetters(getCityByDeparture))
+     
+     
+     getCitysByDeparture = prompt("Departure City :");
+     
+        for(let trip of trips){
+         isValidDeparture =
+         getCitysByDeparture.toLowerCase() === trip.departure.toLowerCase();
 
-    for(let trip of trips){
-        if(getCityByDeparture.toLowerCase() === trip.departure.toLowerCase() ){
-            console.log(
-                "Depart City :",trip.departure,"\n\n",
-                "Results","\n\n",
-                trip.departure, "→",trip.destination,":",trip.price,"DH","\n",
-                "=".repeat(33)
-            )
-            
-        }
+         if ( isValidDeparture ){
+             availableCitys = console.log(
+                     "Depart City :",trip.departure,"\n\n",
+                     "Results","\n\n",
+                     trip.departure, "→",trip.destination,":",trip.price,"DH","\n",
+                     "=".repeat(33)
+                 )
+                  /* break here gives only the first mutching and empty return behaves the same,*/
+         }else{
+             console.log(`No Departure City Such As ${getCitysByDeparture}`)
+             break // break here is perfect to avoid log non mutching departures
 
+         }
+         
     }
-    return 
+
+
+    
+} while (!isValidDeparture || !isLetters(getCitysByDeparture))
+    return availableCitys
+
 }
 
 
@@ -407,3 +423,5 @@ function main() {
 }
 
 main()
+
+
