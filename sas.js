@@ -297,21 +297,24 @@ function searchTicket() {
         getTicketByName = prompt("Passenger Name :")
 
         for(let i = 0; i < tickets.length; i++){
-            isValidName =
-            getTicketByName.toLowerCase() === tickets[i].passengerName.toLowerCase() 
-            && isLetters(getTicketByName);
+            isValidName = getTicketByName.toLowerCase() === tickets[i].passengerName.toLowerCase() ;
 
-            isValidName
-            ? console.log(
-                "Ticket  •",tickets[i].id,"\n",
-                "Passenger :" , tickets[i].passengerName,"\n",
-                "Trip :", tickets[i].trip,"\n", // the issua as will as in display pulling from trip and  non existed from tickets[i] 
-                "Place :"  ,tickets[i].seatNumber,"\n", // the same issue 
-                "Price :", tickets[i].price,"\n"
+            if (isValidName){
+
+                console.log(
+                   "Ticket  •",tickets[i].id,"\n",
+                   "Passenger :" , tickets[i].passengerName,"\n",
+                   "Trip :", tickets[i].trip,"\n", // the issua as will as in display pulling from trip and  non existed from tickets[i] 
+                   "Place :"  ,tickets[i].seatNumber,"\n", // the same issue 
+                   "Price :", tickets[i].price,"\n"
+                )
+            }
+            // else{
+
+            //     console.log(`The Name ${getTicketByName} Is Not Existed`);
+            //    break
+            // }
                 
-            )
-            : console.log(`The Name ${getTicketByName} Is Not Existed`);
-            break
         }
             
 
@@ -323,7 +326,7 @@ function filterTrips() {
     let getCitysByDeparture
     let isValidDeparture
     let availableCitys
-    let isFound ; // handling for loop using  Flag concept
+    let isFound = false ; // handling for loop using  Flag concept
  do {
      
      
@@ -334,6 +337,7 @@ function filterTrips() {
          getCitysByDeparture.toLowerCase() === trip.departure.toLowerCase();
 
          if ( isValidDeparture ){
+            isFound = true
              availableCitys = console.log(
                      "Depart City :",trip.departure,"\n\n",
                      "Results","\n\n",
@@ -341,21 +345,22 @@ function filterTrips() {
                      "=".repeat(33)
                  )
                   /* break here gives only the first mutching and empty return behaves the same,*/
-         }else{
+         }
+         
+        }
+         if(!isFound) {
              console.log(`No Departure City Such As ${getCitysByDeparture}`)
              break // break here is perfect to avoid log non mutching departures
 
          }
-         
-    }
 
 
     
-} while (!isValidDeparture || !isLetters(getCitysByDeparture))
+} while (!isFound || !isLetters(getCitysByDeparture))
     return availableCitys
 
 }
-
+// NOTES : never put else inside the loop / flag chnages sequantionly / always sets flag as false and change it in the loop as true if the condition referse to and use flag ! outside the loop so it executes once if just the if in loop is not executed
 
 function SortTrips() {
     let swap
